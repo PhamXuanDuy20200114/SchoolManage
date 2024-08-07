@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: demo1
+  thymeleaf:
+    enabled: true
+  datasource:
+    username: root
+    password: 123456
+    url: "jdbc:mysql://localhost:3306/SchoolManage?createDatabaseIfNotExist=true"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+    generate-ddl: true
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  signedKey : "yHa1WTNGQEpFvU72EtXelsPAXBdIhFI1c4x+03PLk5AhQ+Cir6dc6a5pZsJESB/p"
