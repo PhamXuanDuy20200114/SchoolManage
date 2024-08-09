@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception!", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_MESSAGE_KEY(1, "Invalid message key!", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(2, "User existed!", HttpStatus.BAD_REQUEST),
+    EXPIRED_TOKEN(1001, "Token has already expired!", HttpStatus.UNAUTHORIZED),
+    WRONG_INPUT(1002, "Email|password is wrong!", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(3, "Username must be at least 3 characters!", HttpStatus.BAD_REQUEST),
     PASSWORD_INVALID(4, "Password must be at least 8 characters!", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(5, "User not existed!", HttpStatus.NOT_FOUND),

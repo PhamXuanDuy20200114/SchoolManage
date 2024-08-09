@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -23,7 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SercurityConfig {
 
-    static final String[] PUBLIC_ENDPOINTS = {"abc"};
+    static final String[] PUBLIC_ENDPOINTS = {"/auth/login", "/auth/logout", "/auth/refresh-token"};
 
     @Value("${jwt.signedKey}")
     String signedKey;
@@ -35,19 +36,26 @@ public class SercurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(request ->
+                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll() //Cho phép tất cả mọi người truy cập
+                        //Chỉ những người dùng có token mà có authorities chứa SCOPE_ADMIN - role admin mới được dùng
+                        .requestMatchers(HttpMethod.GET, "/user/get-all-user")
+                        .hasAnyAuthority("ROLE_ADMIN") // Có thể thay thế bằng .hasRole(Role.ADMIN.name())
 
-                .anyRequest().authenticated());
+                        .anyRequest().authenticated()); //Các request khác sẽ phải cần cung cấp 1 token
 
-        http.oauth2ResourceServer(oauth2->
+        //Để có thể validate cho các request cần authenticate thì ta cần phải cấu hình 1 decoder
+        httpSecurity.oauth2ResourceServer(oauth2->
                 oauth2.jwt(jwtConfigurer ->
                                 jwtConfigurer.decoder(jwtDecoder())
                                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint()) //Xử lý exception khi muốn lấy thông tin từ token bị sai http request code: 401
         );
-        return http.build();
+
+        httpSecurity.csrf(AbstractHttpConfigurer:: disable); //Dùng để disable csrf
+
+        return httpSecurity.build();
     }
 
     @Bean

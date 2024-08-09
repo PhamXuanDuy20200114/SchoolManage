@@ -19,7 +19,9 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /
+    context-path: /cms
 
 jwt:
   signedKey : "yHa1WTNGQEpFvU72EtXelsPAXBdIhFI1c4x+03PLk5AhQ+Cir6dc6a5pZsJESB/p"
+  valid-duration: 20
+  refresh-duration: 120

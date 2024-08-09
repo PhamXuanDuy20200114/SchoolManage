@@ -1,6 +1,6 @@
 package com.example.schoolmanage.exception;
 
-import com.example.schoolmanage.dto.response.ApiResponse;
+import com.example.schoolmanage.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -1,6 +1,6 @@
 package com.example.schoolmanage.config;
 
-import com.example.schoolmanage.dto.response.ApiResponse;
+import com.example.schoolmanage.dto.ApiResponse;
 import com.example.schoolmanage.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
