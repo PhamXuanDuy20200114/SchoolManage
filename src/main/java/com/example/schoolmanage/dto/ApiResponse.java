@@ -13,6 +13,6 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants(level = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
     int code = 200;
-    String message;
+    String message = "Successful!";
     T data;
 }

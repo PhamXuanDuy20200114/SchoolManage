@@ -1,7 +1,7 @@
 package com.example.schoolmanage.service;
 
 import com.example.schoolmanage.dto.request.AuthenticateRequest;
-import com.example.schoolmanage.dto.request.RefreshTokenRequest;
+import com.example.schoolmanage.dto.request.TokenRequest;
 import com.example.schoolmanage.dto.response.AuthenticateResponse;
 import com.example.schoolmanage.entity.Role;
 import com.example.schoolmanage.entity.User;
@@ -109,13 +109,22 @@ public class AuthenticateService {
         return "Log out success!";
     }
 
-    public String refreshToken(RefreshTokenRequest request) throws ParseException, JOSEException {
+    public String refreshToken(TokenRequest request) throws ParseException, JOSEException {
         SignedJWT signedJWT = verifyToken(request.getToken(), true);
         User user = userRepository.findByEmail(signedJWT.getJWTClaimsSet().getSubject());
         String refreshToken = generateToken(user);
         user.setToken(refreshToken);
         userRepository.save(user);
         return refreshToken;
+    }
+
+    public void introspect(TokenRequest request) throws ParseException, JOSEException {
+        boolean isValid = true;
+        try{
+            SignedJWT signedJWT = verifyToken(request.getToken(), false);
+        }catch(AppException e){
+            isValid = false;
+        }
     }
 
     SignedJWT verifyToken(String token, boolean isRefresh) throws ParseException, JOSEException {

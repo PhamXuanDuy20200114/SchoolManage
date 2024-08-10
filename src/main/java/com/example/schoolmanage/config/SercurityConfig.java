@@ -1,5 +1,6 @@
 package com.example.schoolmanage.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ public class SercurityConfig {
     @Value("${jwt.signedKey}")
     String signedKey;
 
+    CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,7 +42,7 @@ public class SercurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll() //Cho phép tất cả mọi người truy cập
                         //Chỉ những người dùng có token mà có authorities chứa SCOPE_ADMIN - role admin mới được dùng
-                        .requestMatchers(HttpMethod.GET, "/user/get-all-user")
+                        .requestMatchers("/school/**")
                         .hasAnyAuthority("ROLE_ADMIN") // Có thể thay thế bằng .hasRole(Role.ADMIN.name())
 
                         .anyRequest().authenticated()); //Các request khác sẽ phải cần cung cấp 1 token
@@ -48,7 +50,7 @@ public class SercurityConfig {
         //Để có thể validate cho các request cần authenticate thì ta cần phải cấu hình 1 decoder
         httpSecurity.oauth2ResourceServer(oauth2->
                 oauth2.jwt(jwtConfigurer ->
-                                jwtConfigurer.decoder(jwtDecoder())
+                                jwtConfigurer.decoder(customJwtDecoder)
                                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint()) //Xử lý exception khi muốn lấy thông tin từ token bị sai http request code: 401
         );
@@ -58,14 +60,14 @@ public class SercurityConfig {
         return httpSecurity.build();
     }
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signedKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
+//    @Bean
+//    JwtDecoder jwtDecoder() {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(signedKey.getBytes(), "HS512");
+//        return NimbusJwtDecoder
+//                .withSecretKey(secretKeySpec)
+//                .macAlgorithm(MacAlgorithm.HS512)
+//                .build();
+//    }
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {

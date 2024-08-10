@@ -8,6 +8,6 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RefreshTokenRequest {
+public class TokenRequest {
     String token;
 }

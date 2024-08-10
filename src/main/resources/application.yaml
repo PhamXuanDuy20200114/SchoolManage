@@ -23,5 +23,5 @@ server:
 
 jwt:
   signedKey : "yHa1WTNGQEpFvU72EtXelsPAXBdIhFI1c4x+03PLk5AhQ+Cir6dc6a5pZsJESB/p"
-  valid-duration: 20
+  valid-duration: 1200
   refresh-duration: 120
