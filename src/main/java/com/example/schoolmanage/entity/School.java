@@ -26,8 +26,4 @@ public class School {
     String province; // Tỉnh thành
     String district; //Quận huyện
     String commune;  //Xã phường
-
-    @OneToMany(mappedBy = "schoolId")
-    Set<CustomerSchool> customerSchools;
-
 }

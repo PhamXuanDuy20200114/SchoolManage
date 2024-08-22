@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception!", HttpStatus.INTERNAL_SERVER_ERROR),
-    NOT_FOUND_OBJECT(500, "Not Found Object", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_OBJECT(400, "Not Found Object", HttpStatus.BAD_REQUEST),
     EXPIRED_TOKEN(1001, "Token has already expired!", HttpStatus.UNAUTHORIZED),
     WRONG_INPUT(1002, "Email|password is wrong!", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(3, "Username must be at least 3 characters!", HttpStatus.BAD_REQUEST),

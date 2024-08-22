@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,String> {
+    boolean existsByEmail(String email);
+    Customer findByCustomerId(long customerId);
+    void deleteByCustomerId(long customerId);
 }

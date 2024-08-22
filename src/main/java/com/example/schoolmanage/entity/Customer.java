@@ -22,7 +22,4 @@ public class Customer {
     String avt;
     String phone;
     String token;
-
-    @OneToMany(mappedBy = "customerId")
-    Set<CustomerSchool> customerSchools;
 }

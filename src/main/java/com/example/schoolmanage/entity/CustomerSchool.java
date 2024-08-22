@@ -1,9 +1,6 @@
 package com.example.schoolmanage.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,8 +14,13 @@ public class CustomerSchool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    long customerId;
-    long schoolId;
+    @ManyToOne
+    @JoinColumn(name = "customerId", nullable = false)
+    Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name="schoolId", nullable = false)
+    School school;
     String type;
     int status;
 }

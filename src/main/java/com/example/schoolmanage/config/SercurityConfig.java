@@ -1,6 +1,5 @@
 package com.example.schoolmanage.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
@@ -42,7 +37,7 @@ public class SercurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll() //Cho phép tất cả mọi người truy cập
                         //Chỉ những người dùng có token mà có authorities chứa SCOPE_ADMIN - role admin mới được dùng
-                        .requestMatchers("/school/**")
+                        .requestMatchers("/school/**", "/customer/**")
                         .hasAnyAuthority("ROLE_ADMIN") // Có thể thay thế bằng .hasRole(Role.ADMIN.name())
 
                         .anyRequest().authenticated()); //Các request khác sẽ phải cần cung cấp 1 token
